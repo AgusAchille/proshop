@@ -1,5 +1,4 @@
 import React from 'react'
-import { propTypes } from 'react-bootstrap/esm/Image';
 
 export default function Rating({ value, text, color = 'Orange' }) {
     return (
