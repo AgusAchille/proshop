@@ -27,9 +27,12 @@ export default function ProductScreen({ match, history }) {
 
     return (
         <>
-            <Link className='btn btn-dark my-3' to='/'>
+            {/* <Link className='btn btn-dark my-3' to='/'>
                 Go Back
-            </Link>
+            </Link> */}
+            <Button className='btn btn-dark my-3' onClick={() => window.history.go(-1)}>
+                Go Back
+            </Button>
             {
                 loading ? (
                     <Loader/>
@@ -37,26 +40,26 @@ export default function ProductScreen({ match, history }) {
                     <Message variant='danger'>{error}</Message>
                 ) : (
                     <Row>
-                        <Col md={6}>
+                        <Col md={4} lg={6} >
                             <Image src={product.image} alt={product.name} fluid/>
                         </Col>
-                        <Col md={3}>
+                        <Col md={4} lg={3}>
                             <ListGroup varient='flush'>
-                                <ListGroup.Item style={{border: 'none', paddingBottom: '0px'}}>
+                                <ListGroup.Item style={{ paddingBottom: '0px'}}>
                                     <h3 style={{paddingBottom: '0px'}}>{product.name}</h3>
                                 </ListGroup.Item>
-                                <ListGroup.Item style={{border: 'none'}}>
+                                <ListGroup.Item style={{}}>
                                     <Rating value={product.rating} text={`${product.numReviews} Reviews`} />
                                 </ListGroup.Item>
-                                <ListGroup.Item style={{border: 'none'}}> 
+                                <ListGroup.Item style={{}}> 
                                     Price: ${product.price}
                                 </ListGroup.Item>
-                                <ListGroup.Item style={{border: 'none'}}> 
+                                <ListGroup.Item style={{}}> 
                                     Description: ${product.description}
                                 </ListGroup.Item>
                             </ListGroup>
                         </Col>
-                        <Col md={3}>
+                        <Col md={4} lg={3}>
                             <Card>
                                 <ListGroup variant='flush'>
                                     <ListGroup.Item>
@@ -86,9 +89,9 @@ export default function ProductScreen({ match, history }) {
                                             <Row>
                                                 <Col>Qty</Col>
                                                 <Col>
-                                                    <Form.Control as='select' value={qty} onChange={e => setQty(Number(e.target.value))}>
+                                                    <Form.Control as='select' size={"sm"}  value={qty} onChange={e => setQty(Number(e.target.value))}>
                                                         {
-                                                            [...(Array(product.countInStock).keys())].map(x => (
+                                                            [...(Array(100).keys())].map(x => (
                                                                 <option key={x + 1} value={x + 1}>
                                                                     {x + 1}
                                                                 </option>
