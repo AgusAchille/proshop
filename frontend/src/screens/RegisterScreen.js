@@ -17,8 +17,10 @@ export default function RegisterScreen({ location, history }) {
     const dispatch = useDispatch();
 
     const userRegister = useSelector(state => state.userRegister);
-    const { loading, error, userInfo } = userRegister;
+    const { loading, error } = userRegister;
 
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInfo } = userLogin;
 
     /*TODO: Cambiar esto para que use la función que obtiene el parámetro por nombre.*/
     /*TODO: Evaluar usar useLocation().*/
