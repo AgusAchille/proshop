@@ -97,7 +97,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     if(user) {
         if(req.body.name && req.body.name.trim()) user.name = req.body.name.trim();
         if(req.body.email && req.body.email.trim()) user.email = req.body.email.trim();
-        if(req.body.password && req.body.password.trim()) user.email = req.body.password.trim();
+        if(req.body.password && req.body.password.trim()) user.password = req.body.password.trim();
 
         const updatedUser = await user.save();
 
