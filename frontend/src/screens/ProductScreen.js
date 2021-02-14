@@ -91,7 +91,7 @@ export default function ProductScreen({ match, history }) {
                                                 <Col>
                                                     <Form.Control as='select' size={"sm"}  value={qty} onChange={e => setQty(Number(e.target.value))}>
                                                         {
-                                                            [...(Array(100).keys())].map(x => (
+                                                            [...(Array(product.countInStock).keys())].map(x => (
                                                                 <option key={x + 1} value={x + 1}>
                                                                     {x + 1}
                                                                 </option>
