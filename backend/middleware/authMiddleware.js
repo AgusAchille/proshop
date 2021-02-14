@@ -14,6 +14,7 @@ const  protect = asyncHandler(async(req, res, next) => {
             //Esto no tiene mucho sentido, alcanzaría con guardar solo el id del usuario
             //Ya que más adelante se usa el id para traer información de la base.
             /*TODO: revisar esto*/ 
+            /*TODO: revisar caso en que el token está OK pero el usuario ya no exista en la base */
             req.user = await User.findById(decoded.id).select('-password');
 
             next();
