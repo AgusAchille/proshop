@@ -5,7 +5,7 @@ import Order from '../models/orderModel.js'
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
-const addOrderItems = asyncHandler(async (req, res) => {
+export const addOrderItems = asyncHandler(async (req, res) => {
     const { orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice } = req.body;
 
     if(orderItems && orderItems.length === 0) {
@@ -39,7 +39,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // @desc    Get order by id
 // @route   GET /api/order/:id
 // @access  Private
-const getOrderById = asyncHandler(async (req, res) => {
+export const getOrderById = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id).populate('user', 'name email');
 
     if(order) {
@@ -51,5 +51,3 @@ const getOrderById = asyncHandler(async (req, res) => {
     }
 
 })
-
-export { addOrderItems, getOrderById };
