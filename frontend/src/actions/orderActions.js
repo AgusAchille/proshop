@@ -5,7 +5,11 @@ import {
     ORDER_CREATE_FAIL,
     ORDER_DETAILS_REQUEST,
     ORDER_DETAILS_SUCCESS,
-    ORDER_DETAILS_FAIL
+    ORDER_DETAILS_FAIL,
+    ORDER_PAY_REQUEST,
+    ORDER_PAY_SUCCESS,
+    ORDER_PAY_FAIL,
+    ORDER_PAY_RESET
 } from '../constants/orderConstants'
 
 export const createOrder = (order) => async(dispatch, getState) => {
@@ -62,6 +66,35 @@ export const getOrderDetails = (orderId) => async(dispatch, getState) => {
     catch (error) {
         dispatch({
             type: ORDER_DETAILS_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.response
+        });
+    }
+}
+
+export const payOrder = (orderId, paymentResult) => async(dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_PAY_REQUEST
+        })
+
+        //TODO: probar obtener el token directamente en vez de hacer destructuring
+        const { userInfo } = getState().userLogin;
+
+        const config = {
+            'Content-Type': 'application/json',
+            headers: { Authorization: `Bearer ${userInfo.token}` }
+        }
+
+        debugger;
+        const { data } = await axios.put(`/api/orders/${orderId}/pay`, paymentResult, config);
+        dispatch({
+            type: ORDER_PAY_SUCCESS,
+            payload: data
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: ORDER_PAY_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.response
         });
     }
