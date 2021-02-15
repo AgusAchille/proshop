@@ -30,7 +30,7 @@ export function orderCreateReducer (state = {}, action) {
 }
 
 //BUG: El default value TRUE para loading es un parche que hizo brad por unos problemas que dijo que estaba teniendo. Investigar
-export function orderDetailsReducer (state = { loading: true, orderItems: [], shippingAddress: {}}, action) {
+export function orderDetailsReducer (state = { loading: true, order: {orderItems: [], shippingAddress: {}}}, action) {
     switch(action.type) {
         case ORDER_DETAILS_REQUEST:
             return {

@@ -29,11 +29,6 @@ export const addOrderItems = asyncHandler(async (req, res) => {
 
         res.status(201).json(createdOrder);
     }
-
-
-
-    const products = await Product.find({});
-    res.json(products);
 })
 
 // @desc    Get order by id
