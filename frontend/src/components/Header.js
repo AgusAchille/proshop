@@ -31,7 +31,7 @@ export default function Header() {
                                 </Nav.Link>
                             </LinkContainer>    
                             {userInfo ? (
-                                <NavDropdown title={userInfo.name} id='username'>
+                                <NavDropdown title={userInfo.name} id='username' style={{marginRight:'0'}}>
                                     <LinkContainer to='/profile'>
                                         <NavDropdown.Item>Profile</NavDropdown.Item>
                                     </LinkContainer>
@@ -45,7 +45,7 @@ export default function Header() {
                                 </LinkContainer>          
                             )}
                             {userInfo && userInfo.isAdmin && (
-                                <NavDropdown title={'Admin'} id='adminmenu'>
+                                <NavDropdown title={'Admin'} id='adminmenu' style={{marginRight:'0'}}>
                                     <LinkContainer to='/admin/userlist'>
                                         <NavDropdown.Item>Users</NavDropdown.Item>
                                     </LinkContainer>

@@ -6,21 +6,33 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listUsers } from '../actions/userActions'
 
-export default function UserListScreen() {
+export default function UserListScreen({ history }) {
     const dispatch = useDispatch();
 
     const userList = useSelector(state => state.userList);
     const { loading, error, users } = userList;
 
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInfo } = userLogin;
+
     useEffect(() => {
-        dispatch(listUsers)
-    }, [dispatch]) 
+        if(!userInfo) {
+            history.push('/login');
+        }
+        else if(!userInfo.isAdmin) {
+            history.push('/')
+        }
+        else {
+            dispatch(listUsers)
+        }
+    }, [dispatch, history, userInfo]) 
 
     function deleteHandler(userId) {
 
     }
 
     return (
+        userInfo && userInfo.isAdmin &&
         <>
             <h1>Users</h1>  
             {loading ? (
@@ -46,10 +58,10 @@ export default function UserListScreen() {
                                     <td>{user.name}</td>
                                     <td><a href={`mailto:${user.email}`}>{user.email}</a></td>
                                     <td>
-                                        {user.isAdmail ? (
-                                            <i classname='fas fa-check' style={{color: 'green'}}></i>
+                                        {user.isAdmin ? (
+                                            <i className='fas fa-check' style={{color: 'green'}}></i>
                                         ) : (
-                                            <i classname='fas fa-times' style={{color: 'red'}}></i>
+                                            <i className='fas fa-times' style={{color: 'red'}}></i>
                                         )}
                                     </td>
                                     <td>
