@@ -28,6 +28,7 @@ export default function UserListScreen({ history }) {
         else if (!deleteLoading) {
             dispatch(listUsers)
         }
+        // eslint-disable-next-line
     }, [dispatch, history, userInfo, successDelete]) 
 
     function deleteHandler(userId) {
@@ -70,7 +71,7 @@ export default function UserListScreen({ history }) {
                                         )}
                                     </td>
                                     <td>
-                                        <LinkContainer to={`/user/${user._id}/edit`}>
+                                        <LinkContainer to={`/admin/user/${user._id}/edit`}>
                                             <Button variant='light' className='btn-sm'>
                                                 <i className='fas fa-edit'></i>
                                             </Button>
