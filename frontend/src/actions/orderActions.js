@@ -16,17 +16,14 @@ import {
 
 export const createOrder = (order) => async(dispatch, getState) => {
     try {
-        dispatch({
-            type: ORDER_CREATE_REQUEST
-        })
+        dispatch({ type: ORDER_CREATE_REQUEST })
 
-        //TODO: probar obtener el token directamente en vez de hacer destructuring
-        const { userInfo } = getState().userLogin;
+        const token = getState().userLogin.userInfo.token;
 
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${token}`
             }
         }
 
@@ -47,15 +44,12 @@ export const createOrder = (order) => async(dispatch, getState) => {
 
 export const getOrderDetails = (orderId) => async(dispatch, getState) => {
     try {
-        dispatch({
-            type: ORDER_DETAILS_REQUEST
-        })
+        dispatch({ type: ORDER_DETAILS_REQUEST })
 
-        //TODO: probar obtener el token directamente en vez de hacer destructuring
-        const { userInfo } = getState().userLogin;
+        const token = getState().userLogin.userInfo.token;
 
         const config = {
-            headers: { Authorization: `Bearer ${userInfo.token}` }
+            headers: { Authorization: `Bearer ${token}` }
         }
 
         const { data } = await axios.get(`/api/orders/${orderId}`, config);
@@ -74,16 +68,13 @@ export const getOrderDetails = (orderId) => async(dispatch, getState) => {
 
 export const payOrder = (orderId, paymentResult) => async(dispatch, getState) => {
     try {
-        dispatch({
-            type: ORDER_PAY_REQUEST
-        })
+        dispatch({ type: ORDER_PAY_REQUEST })
 
-        //TODO: probar obtener el token directamente en vez de hacer destructuring
-        const { userInfo } = getState().userLogin;
+        const token = getState().userLogin.userInfo.token;
 
         const config = {
             'Content-Type': 'application/json',
-            headers: { Authorization: `Bearer ${userInfo.token}` }
+            headers: { Authorization: `Bearer ${token}` }
         }
 
         const { data } = await axios.put(`/api/orders/${orderId}/pay`, paymentResult, config);
@@ -102,14 +93,13 @@ export const payOrder = (orderId, paymentResult) => async(dispatch, getState) =>
 
 export async function listMyOrders (dispatch, getState) {
     try {
-        dispatch({
-            type: ORDER_LIST_MY_ORDERS_REQUEST
-        })
+        dispatch({ type: ORDER_LIST_MY_ORDERS_REQUEST })
 
-        //TODO: probar obtener el token directamente en vez de hacer destructuring
-        const { userInfo } = getState().userLogin;
+        const token = getState().userLogin.userInfo.token;
 
-        const config = { headers: { Authorization: `Bearer ${userInfo.token}` } }
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        }
 
         const { data } = await axios.get(`/api/orders/myorders`, config);
         

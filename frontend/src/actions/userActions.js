@@ -78,12 +78,12 @@ export const getUserDetails = (id) => async(dispatch, getState) => {
     try {
         dispatch({ type: USER_DETAILS_REQUEST })
 
-        const { userInfo } = getState().userLogin;
+        const token = getState().userLogin.userInfo.token;
 
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${token}`
             }
         }
 
@@ -106,12 +106,12 @@ export const updateUserProfile = (user) => async(dispatch, getState) => {
     try {
         dispatch({ type: USER_UPDATE_PROFILE_REQUEST })
 
-        const { userInfo } = getState().userLogin;
+        const token = getState().userLogin.userInfo.token;
 
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${token}`
             }
         }
 
@@ -134,10 +134,10 @@ export async function listUsers (dispatch, getState) {
     try {
         dispatch({ type: USER_LIST_REQUEST })
 
-        const { userInfo } = getState().userLogin;
+        const token = getState().userLogin.userInfo.token;
 
         const config = {
-            headers: { Authorization: `Bearer ${userInfo.token}` }
+            headers: { Authorization: `Bearer ${token}` }
         }
 
         const { data } = await axios.get(`/api/users`, config);
@@ -159,10 +159,10 @@ export  const deleteUser = (userId) => async (dispatch, getState) => {
     try {
         dispatch({ type: USER_DELETE_REQUEST })
 
-        const { userInfo } = getState().userLogin;
+        const token = getState().userLogin.userInfo.token;
 
         const config = {
-            headers: { Authorization: `Bearer ${userInfo.token}` }
+            headers: { Authorization: `Bearer ${token}` }
         }
 
         await axios.delete(`/api/users/${userId}`, config);
@@ -181,11 +181,11 @@ export  const updateUser = (user) => async (dispatch, getState) => {
     try {
         dispatch({ type: USER_UPDATE_REQUEST })
 
-        const { userInfo } = getState().userLogin;
+        const token = getState().userLogin.userInfo.token;
 
         const config = {
             'Content-Type': 'application/json',
-            headers: { Authorization: `Bearer ${userInfo.token}` }
+            headers: { Authorization: `Bearer ${token}` }
         }
 
         const { data } = await axios.put(`/api/users/${user._id}`, user, config);
