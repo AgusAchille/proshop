@@ -6,7 +6,6 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getOrderDetails, payOrder } from '../actions/orderActions'
 import axios from 'axios'
-import { PayPalButton } from 'react-paypal-button-v2'
 import { ORDER_PAY_RESET } from '../constants/orderConstants'
 
 export default function OrderScreen({ match }) {
@@ -57,7 +56,6 @@ export default function OrderScreen({ match }) {
     const { address, city, postalCode, country } = order.shippingAddress;
 
     function successPaymentHandler() {
-
         dispatch(payOrder(orderId));
     }
 
