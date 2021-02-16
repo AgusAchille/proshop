@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { productListReducer, productDetailsReducer, productDeleteReducer } from './reducers/productReducers'
+import { productListReducer, productDetailsReducer, productDeleteReducer, productCreateReducer } from './reducers/productReducers'
 import { cartReducer } from './reducers/cartReducers'
 import {
     userLoginReducer,
@@ -17,6 +17,8 @@ import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderListMyOr
 const reducer = combineReducers({
     productList: productListReducer,
     productDetails: productDetailsReducer,
+    productDelete: productDeleteReducer,
+    productCreate: productCreateReducer,
     cart: cartReducer,
     userDetails: userDetailsReducer,
     userDelete: userDeleteReducer,
@@ -28,8 +30,7 @@ const reducer = combineReducers({
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
     orderListMyOrders: orderListMyOrdersReducer,
-    orderPay: orderPayReducer,
-    productDelete: productDeleteReducer
+    orderPay: orderPayReducer
 })
 
 /*TODO: Tal vez debamos solo guardar el token en local storage y luego traer el resto de la información de la base

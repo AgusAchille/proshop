@@ -4,7 +4,8 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listProducts, deleteProduct } from '../actions/productActions'
+import { listProducts, deleteProduct, CreateProduct } from '../actions/productActions'
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
 export default function ProductListScreen({ history, match }) {
     const dispatch = useDispatch();
@@ -15,21 +16,30 @@ export default function ProductListScreen({ history, match }) {
     const productDelete = useSelector(state => state.productDelete);
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete;
 
+    const productCreate = useSelector(state => state.productCreate);
+    const { loading: loadingCreate, error: errorCreate, success: successCreate, product: createdProduct } = productCreate;
+
     const userLogin = useSelector(state => state.userLogin);
     const { userInfo } = userLogin;
 
     useEffect(() => {
+        dispatch({ type: PRODUCT_CREATE_RESET });
+
         if(!userInfo) {
             history.push('/login');
         }
         else if(!userInfo.isAdmin) {
             history.push('/')
         }
+
+        if(successCreate) {
+            history.push(`/admin/product/${createdProduct._id}/edit`)
+        }
         else {
-            dispatch(listProducts)
+            dispatch(listProducts);
         }
         
-    }, [dispatch, history, userInfo, successDelete]) 
+    }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct]) 
 
     function deleteHandler(productId) {
         if(window.confirm('Are you sure you want to DELETE this product?')){
@@ -37,8 +47,8 @@ export default function ProductListScreen({ history, match }) {
         }
     }
 
-    function createProductHandler(product){
-
+    function createProductHandler() {
+        dispatch(CreateProduct);
     }
 
     return (
@@ -56,6 +66,8 @@ export default function ProductListScreen({ history, match }) {
             </Row>
             {loadingDelete && <Loader />}
             {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+            {loadingCreate && <Loader />}
+            {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
             {loading ? (
                 <Loader />
             ) : (
