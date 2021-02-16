@@ -9,7 +9,7 @@ import {
     PRODUCT_DETAILS_FAIL }
 from '../constants/productConstants'
 
-export const listProducts = () => async (dispatch) => {
+export async function listProducts(dispatch) {
     try {
         //dispatch({ type: PRODUCT_DETAILS_REQUEST }); //WorkAround para evitar el flash de un producto anterior cuando se entra a ver un producto.
         dispatch({ type: PRODUCT_LIST_REQUEST });
