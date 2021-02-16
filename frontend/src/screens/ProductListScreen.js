@@ -64,11 +64,9 @@ export default function ProductListScreen({ history, match }) {
                     </Button>
                 </Col>
             </Row>
-            {loadingDelete && <Loader />}
             {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
-            {loadingCreate && <Loader />}
             {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
-            {loading ? (
+            {loading || loadingDelete || loadingCreate? (
                 <Loader />
             ) : (
                 error ? (

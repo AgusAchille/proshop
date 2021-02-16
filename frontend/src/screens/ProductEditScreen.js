@@ -4,8 +4,9 @@ import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getProduct } from '../actions/productActions'
+import { getProduct, updateProduct } from '../actions/productActions'
 import FormContainer from '../components/FormContainer'
+import { PRODUCT_UPDATE_RESET, PRODUCT_DETAILS_RESET } from '../constants/productConstants'
 
 export default function ProductEditScreen({ match, history }) {
     const productId = match.params.id;
@@ -23,13 +24,21 @@ export default function ProductEditScreen({ match, history }) {
     const productDetails = useSelector(state => state.productDetails);
     const { loading, error, product } = productDetails;
 
+    const productUpdate = useSelector(state => state.productUpdate);
+    const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = productUpdate;
+
     const submitHandler = (e) => {
         e.preventDefault();
-        
+        dispatch(updateProduct({_id: productId, name, price, brand, image, category, description, countInStock}))
     }
 
     useEffect(() => {
-        if(!product.name || product._id !== productId) {
+        if(successUpdate) {
+            dispatch({ type: PRODUCT_UPDATE_RESET });
+            dispatch({ type: PRODUCT_DETAILS_RESET });
+            history.push('/admin/productlist');
+        }
+        else if(!product.name || product._id !== productId) {
             dispatch(getProduct(productId));
         }
         else {
@@ -41,7 +50,7 @@ export default function ProductEditScreen({ match, history }) {
             setCategory(product.category);
             setCountInStock(product.countInStock);
         }
-    }, [dispatch, history, productId, product]);
+    }, [dispatch, history, productId, product, successUpdate]);
 
     return (
         <>
@@ -50,7 +59,8 @@ export default function ProductEditScreen({ match, history }) {
             </Link>
             <FormContainer>
                 <h1>Edit Product</h1>
-                {loading ? (
+                {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
+                {loading || loadingUpdate? (
                     <Loader/>
                 ) : (
                     error ? (
