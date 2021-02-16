@@ -33,7 +33,7 @@ export default function ProductScreen({ match, history }) {
                 Go Back
             </Button>
             {
-                loading ? (
+                loading || (product && product._id !== match.params.id) ? (
                     <Loader/>
                 ) : error ? (
                     <Message variant='danger'>{error}</Message>
