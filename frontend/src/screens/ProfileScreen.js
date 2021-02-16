@@ -8,6 +8,7 @@ import { getUserDetails, updateUserProfile } from '../actions/userActions'
 import { listMyOrders } from '../actions/orderActions'
 
 export default function ProfileScreen({ location, history }) {
+    //BUG: The order list is not updated when the order an order is paid, unless you refresh the page
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
