@@ -31,7 +31,7 @@ export function productListReducer(state = { products: [] }, action) {
 export function productDetailsReducer(state = { product: { reviews: [] } }, action){
     switch(action.type) {
         case PRODUCT_DETAILS_REQUEST:
-            return { loading: true, product: { reviews: [] } }
+            return { ...state, loading: true }
         case PRODUCT_DETAILS_SUCCESS:
             return { loading: false, product: action.payload}
         case PRODUCT_DETAILS_FAIL:
