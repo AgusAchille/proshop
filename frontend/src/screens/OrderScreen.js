@@ -4,17 +4,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getOrderDetails, payOrder } from '../actions/orderActions'
+import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions'
 import axios from 'axios'
-import { ORDER_PAY_RESET } from '../constants/orderConstants'
+import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants'
 
-export default function OrderScreen({ match }) {
+export default function OrderScreen({ match, history }) {
+    //TODO: Remove paypal
     //TODO: This screen should only be visible for the orders owner or an admin
     const orderId = match.params.id;
 
     const [sdkReady, setSdkReady ] = useState(false);
 
     const dispatch = useDispatch();
+    
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInfo } = userLogin;
 
     const orderDetails = useSelector(state => state.orderDetails);
     const { order, loading, error } = orderDetails;
@@ -22,9 +26,16 @@ export default function OrderScreen({ match }) {
     const orderPay = useSelector(state => state.orderPay);
     const { loading: loadingPay, success: successPay } = orderPay;
 
+    const orderDeliver = useSelector(state => state.orderDeliver);
+    const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+
     order.itemsPrice = order.orderItems.reduce((acc, item) => acc + Number(item.price) * Number(item.qty), 0)
 
     useEffect(() => {
+        if(!userInfo) {
+            history.push('/login');
+        }
+
         async function addPayPalScript () {
             const { data: clientId } = await axios.get('/api/config/paypal');
             
@@ -40,8 +51,9 @@ export default function OrderScreen({ match }) {
         }
 
         //make sure that the order ID matches the ID in the URL. If it does not, then dispatch getOrderDetails() to fetch the most recent order
-        if(!order || order._id !== orderId || successPay) {
+        if(!order || order._id !== orderId || successPay || successDeliver) {
             dispatch({type: ORDER_PAY_RESET})
+            dispatch({type: ORDER_DELIVER_RESET})
             dispatch(getOrderDetails(orderId))
         }
         else if(!order.idPaid) {
@@ -52,12 +64,16 @@ export default function OrderScreen({ match }) {
                 setSdkReady(true);
             }
         }
-    }, [order, orderId, successPay])
+    }, [order, orderId, successPay, successDeliver])
 
     const { address, city, postalCode, country } = order.shippingAddress;
 
     function successPaymentHandler() {
         dispatch(payOrder(orderId));
+    }
+
+    function deliverHandler(){
+        dispatch(deliverOrder(order));
     }
 
     return loading ? <Loader /> :
@@ -157,6 +173,14 @@ export default function OrderScreen({ match }) {
                                     {!sdkReady ? <Loader /> : (
                                         <Button onClick={successPaymentHandler} >Pagar</Button>
                                     )}
+                                </ListGroup.Item>
+                            )}
+                            {loadingDeliver && <Loader />}
+                            {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                                <ListGroup.Item>
+                                    <Button type='button' className='btn btn-block' onClick={deliverHandler}>
+                                        Mark as delivered
+                                    </Button>
                                 </ListGroup.Item>
                             )}
                         </ListGroup>

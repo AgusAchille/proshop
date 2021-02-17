@@ -12,7 +12,7 @@ import {
     userDeleteReducer,
     userUpdateReducer   
 } from './reducers/userReducers'
-import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderListMyOrdersReducer, orderListReducer } from './reducers/orderReducers'
+import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderListMyOrdersReducer, orderListReducer, orderDeliverReducer } from './reducers/orderReducers'
 
 const reducer = combineReducers({
     productList: productListReducer,
@@ -32,7 +32,8 @@ const reducer = combineReducers({
     orderDetails: orderDetailsReducer,
     orderListMyOrders: orderListMyOrdersReducer,
     orderPay: orderPayReducer,
-    orderList: orderListReducer
+    orderList: orderListReducer,
+    orderDeliver: orderDeliverReducer
 })
 
 /*TODO: Tal vez debamos solo guardar el token en local storage y luego traer el resto de la información de la base
