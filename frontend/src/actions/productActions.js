@@ -67,7 +67,7 @@ export const deleteProduct = (productId) => async (dispatch, getState) => {
     }
 }
 
-export async function CreateProduct (dispatch, getState) {
+export async function createProduct (dispatch, getState) {
     try {
         dispatch({ type: PRODUCT_CREATE_REQUEST })
 

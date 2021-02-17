@@ -9,6 +9,7 @@ import axios from 'axios'
 import { ORDER_PAY_RESET } from '../constants/orderConstants'
 
 export default function OrderScreen({ match }) {
+    //TODO: This screen should only be visible for the orders owner or an admin
     const orderId = match.params.id;
 
     const [sdkReady, setSdkReady ] = useState(false);

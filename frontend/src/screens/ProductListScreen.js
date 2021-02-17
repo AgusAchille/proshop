@@ -4,7 +4,7 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listProducts, deleteProduct, CreateProduct } from '../actions/productActions'
+import { listProducts, deleteProduct, createProduct } from '../actions/productActions'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
 export default function ProductListScreen({ history, match }) {
@@ -48,7 +48,7 @@ export default function ProductListScreen({ history, match }) {
     }
 
     function createProductHandler() {
-        dispatch(CreateProduct);
+        dispatch(createProduct);
     }
 
     return (
