@@ -184,8 +184,10 @@ export  const updateUser = (user) => async (dispatch, getState) => {
         const token = getState().userLogin.userInfo.token;
 
         const config = {
-            'Content-Type': 'application/json',
-            headers: { Authorization: `Bearer ${token}` }
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}` 
+            }
         }
 
         const { data } = await axios.put(`/api/users/${user._id}`, user, config);
