@@ -6,12 +6,16 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listProducts, deleteProduct, createProduct } from '../actions/productActions'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+import Paginate from '../components/Paginate'
+import { useHistory, useParams } from 'react-router-dom'
 
-export default function ProductListScreen({ history, match }) {
+export default function ProductListScreen({ history }) {
     const dispatch = useDispatch();
 
+    const page = useParams().page;
+
     const productList = useSelector(state => state.productList);
-    const { loading, error, products } = productList;
+    const { loading, error, products, page: pageNumber, pages } = productList;
 
     const productDelete = useSelector(state => state.productDelete);
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete;
@@ -36,10 +40,10 @@ export default function ProductListScreen({ history, match }) {
             history.push(`/admin/product/${createdProduct._id}/edit`)
         }
         else {
-            dispatch(listProducts);
+            dispatch(listProducts('', page, 5));
         }
         
-    }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct]) 
+    }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct, page]) 
 
     function deleteHandler(productId) {
         if(window.confirm('Are you sure you want to DELETE this product?')){
@@ -72,6 +76,7 @@ export default function ProductListScreen({ history, match }) {
                 error ? (
                     <Message variant='danger'>{error}</Message>
                 ) : (
+                    <>
                     <Table striped bordered hover responsive className='table-sm'>
                         <thead>
                             <tr>
@@ -105,6 +110,8 @@ export default function ProductListScreen({ history, match }) {
                             ))}
                         </tbody>
                     </Table>
+                    <Paginate pages={pages} page={pageNumber} baseUrl={`/admin/productlist`}></Paginate>
+                    </>
                 )
             )
           }

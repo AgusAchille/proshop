@@ -9,13 +9,15 @@ import {
 from '../constants/productConstants'
 
 export function productListReducer(state = { products: [] }, action) {
+    const payload = action.payload;
+
     switch (action.type) {
         case PRODUCT_LIST_REQUEST:
             return { loading: true, products: [] }
         case PRODUCT_LIST_SUCCESS:       
-            return { loading: false, products: action.payload}
+            return { loading: false, products: payload.products, pages: payload.pages, page: payload.page }
         case PRODUCT_LIST_FAIL:
-            return { loading: false, error: action.payload}
+            return { loading: false, error: payload}
         default:
             return state
     }
