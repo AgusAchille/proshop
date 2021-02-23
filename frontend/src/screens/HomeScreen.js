@@ -7,6 +7,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { useParams } from 'react-router-dom'
 import Paginate from '../components/Paginate'
+import ProductCarousel from '../components/ProductCarousel'
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
@@ -19,11 +20,12 @@ export default function HomeScreen() {
     const { loading, error, products, page: pageNumber, pages } = productList;
 
     useEffect(() => {
-        dispatch(listProducts(keyword, page));
+        dispatch(listProducts(keyword, page, 4));
     }, [dispatch, keyword, page])
 
     return (
         <>
+            {!keyword && <ProductCarousel />}
             <h1>Latest Products</h1>
             {
                 loading ? (
