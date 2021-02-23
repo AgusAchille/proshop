@@ -8,6 +8,7 @@ import Message from '../components/Message'
 import { useParams } from 'react-router-dom'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
+import { Helmet } from 'react-helmet'
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
@@ -25,6 +26,11 @@ export default function HomeScreen() {
 
     return (
         <>
+            <Helmet>
+                <title>Welcome to ProShop | Home</title>
+                <meta name='description' content='We sell the best products for cheap' />
+                <meta name='keyword' content='electronics, buy electronics, cheap electronics' />
+            </Helmet>
             {!keyword && <ProductCarousel />}
             <h1>Latest Products</h1>
             {

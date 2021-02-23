@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
+import { Helmet } from 'react-helmet'
 
 export default function ProductScreen({ match, history }) {
     const [qty, setQty] = useState(1);
@@ -48,9 +49,6 @@ export default function ProductScreen({ match, history }) {
 
     return (
         <>
-            {/* <Link className='btn btn-dark my-3' to='/'>
-                Go Back
-            </Link> */}
             <Button className='btn btn-dark my-3' onClick={() => window.history.go(-1)}>
                 Go Back
             </Button>
@@ -61,6 +59,11 @@ export default function ProductScreen({ match, history }) {
                     <Message variant='danger'>{error}</Message>
                 ) : (
                     <>
+                    <Helmet>
+                        <title>ProShop | {product.name}</title>
+                        <meta name='description' content='We sell the best products for cheap' />
+                        <meta name='keyword' content='electronics, buy electronics, cheap electronics' />
+                    </Helmet>
                     <Row>
                         <Col md={4} lg={6} >
                             <Image src={product.image} alt={product.name} fluid/>
